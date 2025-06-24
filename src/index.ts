@@ -5,6 +5,7 @@ import sequelize from "./db";
 
 const app = express();
 dotenv.config();
+const PORT = process.env.PORT || 3000;
 
 const db = async () => {
   try {
@@ -27,11 +28,10 @@ app.get("/health-check", (req: Request, res: Response) => {
 
 app.use("/api", route);
 
-
-if (process.env.NODE_ENV === "local") {
-  app.listen(process.env.PORT, () => {
-    console.log(`Server is running at ${process.env.PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(
+    `Server is running at ${process.env.PORT} in ${process.env.NODE_ENV} mode`
+  );
+});
 
 export default app;
