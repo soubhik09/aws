@@ -1,0 +1,31 @@
+service: aws-file-upload
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: ${env:AWS_REGION_NAME}
+  memorySize: 512
+  timeout: 30
+
+  environment:
+    # DB_NAME: ${env:DB_NAME}
+    # DB_HOST: ${env:DB_HOST}
+    # DB_USER: ${env:DB_USER}
+    # DB_PASSWORD: ${env:DB_PASSWORD}
+    # DB_DIALECT: ${env:DB_DIALECT}
+    AWS_BUCKET: ${env:AWS_BUCKET}
+    AWS_REGION_NAME: ${env:AWS_REGION_NAME}
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+functions:
+  store:
+    handler: src/handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
